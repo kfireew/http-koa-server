@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { get } from '../../config/config';
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/hafifa';
+const MONGO_URI = get('MONGO_URI');
 
 export const connectDB = async (): Promise<void> => {
   try {

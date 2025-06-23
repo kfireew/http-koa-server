@@ -2,7 +2,6 @@
     "compilerOptions": {
       "target": "ES2020",              // modern JS
       "module": "CommonJS",            // ← use CommonJS modules
-      "rootDir": "src",                // your source lives here
       "outDir": "dist",                // compiled .js output (if you ever build)
       "strict": true,
       "esModuleInterop": true,         // allows `import x from 'y'`

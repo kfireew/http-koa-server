@@ -1,0 +1,7 @@
+{
+    "PORT": 3000,
+    "MONGO_URI": "mongodb://localhost:27017/hafifa",
+    "LOG_FILE": "./logs/app.log",
+    "LOG_LEVEL": "debug"
+  }
+  
