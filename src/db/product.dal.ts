@@ -1,22 +1,24 @@
-import { Product, IProduct } from './product.model';
+import { ProductModel, Product } from './product.model';
 
-export const findAll = async (): Promise<IProduct[]> => {
-  return Product.find();
-};
+export class ProductService {
+  public static async findAll(): Promise<Product[]> {
+    return ProductModel.find();
+  }
 
-export const findById = async (id: string): Promise<IProduct | null> => {
-  return Product.findById(id);
-};
+  public static async findById(id: string): Promise<Product | null> {
+    return ProductModel.findById(id);
+  }
 
-export const createOne = async (data: Partial<IProduct>): Promise<IProduct> => {
-  const product = new Product(data);
-  return product.save();
-};
+  public static async createOne(data: Partial<Product>): Promise<Product> {
+    const product = new ProductModel(data);
+    return product.save();
+  }
 
-export const updateById = async (id: string, data: Partial<IProduct>): Promise<IProduct | null> => {
-  return Product.findByIdAndUpdate(id, data, { new: true });
-};
+  public static async updateById(id: string, data: Partial<Product>): Promise<Product | null> {
+    return ProductModel.findByIdAndUpdate(id, data, { new: true });
+  }
 
-export const deleteById = async (id: string): Promise<IProduct | null> => {
-  return Product.findByIdAndDelete(id);
-};
+  public static async deleteById(id: string): Promise<Product | null> {
+    return ProductModel.findByIdAndDelete(id);
+  }
+}

@@ -1,11 +1,9 @@
 import mongoose from 'mongoose';
-import { get } from '../../config/config';
-
-const MONGO_URI = get('MONGO_URI');
+import { nConf } from '../../config/config';
 
 export const connectDB = async (): Promise<void> => {
   try {
-    await mongoose.connect(MONGO_URI);
+    await mongoose.connect(nConf.get('MONGO_URI'));
     console.log('✅ MongoDB connected');
   } catch (err) {
     console.error('❌ MongoDB connection error:', err);

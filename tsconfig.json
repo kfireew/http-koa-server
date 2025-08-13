@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
-      "target": "ES2020",              // modern JS
-      "module": "CommonJS",            // ← use CommonJS modules
-      "outDir": "dist",                // compiled .js output (if you ever build)
+      "target": "ES2020",
+      "module": "CommonJS",
+      "outDir": "dist",
       "strict": true,
-      "esModuleInterop": true,         // allows `import x from 'y'`
+      "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
       "skipLibCheck": true
     },
     "include": ["src"]
   }
-  

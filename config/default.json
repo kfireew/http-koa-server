@@ -1,6 +1,6 @@
 {
     "PORT": 3000,
-    "MONGO_URI": "mongodb://localhost:27017/hafifa",
+    "MONGO_URI": "mongodb+srv://kfirmagniv:M9SoQtxyUpGmSARZ@hafifa.qhyk4ie.mongodb.net/?retryWrites=true&w=majority&appName=Hafifa",
     "LOG_FILE": "./logs/app.log",
     "LOG_LEVEL": "debug"
   }

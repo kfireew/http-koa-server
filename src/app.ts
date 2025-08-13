@@ -1,18 +1,14 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
-import productRoutes from './routes/product.router';
-import { errorHandler } from './middlewares/error-handler';
-import { requestLogger } from './middlewares/requestLogger';
+import { router } from './routes/product.router';
+import { errorMiddleware, loggerMiddleware } from './middlewares';
 
-const app = new Koa();
+export const app = new Koa();
 
 app.use(bodyParser());
 
-app.use(errorHandler);
+app.use(errorMiddleware);
 
-app.use(requestLogger);
+app.use(loggerMiddleware);
 
-// Mount routes
-app.use(productRoutes.routes()).use(productRoutes.allowedMethods());
-
-export default app;
+app.use(router.routes()).use(router.allowedMethods());

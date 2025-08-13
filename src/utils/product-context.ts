@@ -1,7 +1,6 @@
-// src/types/product-context.ts
 import { Context, Request } from 'koa';
-import { IProduct } from '../db/product.model';
+import { Product } from '../db';
 
 export interface ProductContext extends Context {
-  request: Request & { body: IProduct };
+  request: Request & { body: Product };
 }

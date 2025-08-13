@@ -1,14 +1,17 @@
 import Router from 'koa-router';
-import * as ctrl from '../controllers/product.controller';
-import { validateProduct } from '../middlewares/validateProduct';
-import { ProductContext } from '../utils/product-context';
+import { ProductController } from '../controllers/product.controller';
+import { validateProductMiddleware, validateIdMiddleware } from '../middlewares';
+import { ProductContext } from '../utils';
 
-const router = new Router<any, ProductContext>({ prefix: '/products' });
+export const router = new Router<any, ProductContext>({ prefix: '/products' });
 
-router.get('/', ctrl.getAll);
-router.get('/:id', ctrl.getById);
-router.post('/', validateProduct, ctrl.create);
-router.put('/:id', validateProduct, ctrl.update);
-router.delete('/:id', ctrl.remove);
-
-export default router;
+router.get('/', ProductController.getProducts);
+router.get('/:id', validateIdMiddleware, ProductController.getProductById);
+router.post('/', validateProductMiddleware, ProductController.createProduct);
+router.put(
+  '/:id',
+  validateIdMiddleware,
+  validateProductMiddleware,
+  ProductController.updateProduct
+);
+router.delete('/:id', validateIdMiddleware, ProductController.removeProduct);
