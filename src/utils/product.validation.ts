@@ -16,7 +16,7 @@ export function validateSchema<T>(schema: Schema<T>, object: T) {
 export const productSchema: Joi.ObjectSchema<Product> = Joi.object({
   name: Joi.string().min(1).required(),
   price: Joi.number().min(0).required(),
-  description: Joi.string().optional(),
+  description: Joi.string().required(),
   stock: Joi.number().min(0).required()
 });
 

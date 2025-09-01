@@ -3,7 +3,7 @@ import { Schema, model, Document } from 'mongoose';
 export interface Product {
   name: string;
   price: number;
-  description?: string;
+  description: string;
   stock: number;
 }
 
