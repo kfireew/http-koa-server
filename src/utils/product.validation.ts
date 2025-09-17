@@ -1,17 +1,20 @@
 import Joi from 'joi';
 import { Schema } from 'joi';
 import { Product } from '../db';
+import { Context } from 'koa';
 
-export function validateSchema<T>(schema: Schema<T>, object: T) {
+export const assertFound = <T>(body: T | null, ctx: Context) => {
+  if (!body) {
+    ctx.throw(404, 'Not found');
+  }
+};
+
+export const validateSchema = <T>(schema: Schema<T>, object: T) => {
   const { error } = schema.validate(object, { abortEarly: false });
   if (error) {
-    throw {
-      status: 400,
-      message: 'Validation Error',
-      details: error.details.map((d) => d.message)
-    };
+    throw new Error('Validation Error');
   }
-}
+};
 
 export const productSchema: Joi.ObjectSchema<Product> = Joi.object({
   name: Joi.string().min(1).required(),

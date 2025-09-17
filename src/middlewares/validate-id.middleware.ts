@@ -5,14 +5,6 @@ export const validateIdMiddleware = async (ctx: Context, next: Next): Promise<vo
   const id = ctx.params.id;
 
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    ctx.status = 400;
-    ctx.body = {
-      status: 'error',
-      message: 'Invalid ID format'
-    };
-    return;
+    throw new Error('Invalid ID format');
   }
-
-  ctx.productId = id;
-  await next();
 };
