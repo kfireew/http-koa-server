@@ -1,24 +1,33 @@
 import { ProductModel, Product } from './product.model';
+import { assertFound, ProductContext } from '../utils';
 
-export class ProductService {
+export class ProductRepository {
   public static async findAll(): Promise<Product[]> {
     return ProductModel.find();
   }
 
-  public static async findById(id: string): Promise<Product | null> {
-    return ProductModel.findById(id);
+  public static async findById(ctx: ProductContext): Promise<Product> {
+    const product: Product | null = await ProductModel.findById(ctx.params.id);
+    return assertFound(product, ctx);
   }
 
   public static async createOne(data: Partial<Product>): Promise<Product> {
-    const product = new ProductModel(data);
-    return product.save();
+    return new ProductModel(data).save();
   }
 
-  public static async updateById(id: string, data: Partial<Product>): Promise<Product | null> {
-    return ProductModel.findByIdAndUpdate(id, data, { new: true });
+  public static async updateById(ctx: ProductContext): Promise<Product> {
+    const product: Product | null = await ProductModel.findByIdAndUpdate(
+      ctx.params.id,
+      ctx.request.body,
+      {
+        new: true
+      }
+    );
+    return assertFound(product, ctx);
   }
 
-  public static async deleteById(id: string): Promise<Product | null> {
-    return ProductModel.findByIdAndDelete(id);
+  public static async deleteById(ctx: ProductContext): Promise<Product> {
+    const product: Product | null = await ProductModel.findByIdAndDelete(ctx.params.id);
+    return assertFound(product, ctx);
   }
 }

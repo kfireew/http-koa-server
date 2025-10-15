@@ -1,13 +1,13 @@
 import log4js from 'log4js';
-import { nConf } from '../../config/config';
+import { conf } from './config';
 
 log4js.configure({
   appenders: {
     console: { type: 'console' },
-    file: { type: 'file', filename: nConf.get('LOG_FILE') }
+    file: { type: 'file', filename: conf.get('logFile') }
   },
   categories: {
-    default: { appenders: ['console', 'file'], level: nConf.get('LOG_LEVEL') }
+    default: { appenders: ['console', 'file'], level: conf.get('logLevel') }
   }
 });
 

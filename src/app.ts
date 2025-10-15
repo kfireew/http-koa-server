@@ -6,9 +6,6 @@ import { errorMiddleware, loggerMiddleware } from './middlewares';
 export const app = new Koa();
 
 app.use(bodyParser());
-
 app.use(errorMiddleware);
-
 app.use(loggerMiddleware);
-
 app.use(router.routes()).use(router.allowedMethods());

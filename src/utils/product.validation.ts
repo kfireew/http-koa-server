@@ -3,10 +3,11 @@ import { Schema } from 'joi';
 import { Product } from '../db';
 import { Context } from 'koa';
 
-export const assertFound = <T>(body: T | null, ctx: Context) => {
+export const assertFound = <T>(body: T | null, ctx: Context): NonNullable<T> => {
   if (!body) {
     ctx.throw(404, 'Not found');
   }
+  return body;
 };
 
 export const validateSchema = <T>(schema: Schema<T>, object: T) => {
