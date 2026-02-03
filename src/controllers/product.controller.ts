@@ -9,7 +9,7 @@ export class ProductController {
 
   public static async getProductById(ctx: ProductContext): Promise<void> {
     logger.info('Fetching product by id');
-    ctx.body = await ProductRepository.findById(ctx);
+    ctx.body = await ProductRepository.findByIdHttp(ctx);
   }
 
   public static async createProduct(ctx: ProductContext): Promise<void> {
@@ -20,12 +20,12 @@ export class ProductController {
 
   public static async updateProduct(ctx: ProductContext): Promise<void> {
     logger.info('Updating product by id');
-    ctx.body = await ProductRepository.updateById(ctx);
+    ctx.body = await ProductRepository.updateByIdHttp(ctx);
   }
 
   public static async removeProduct(ctx: ProductContext): Promise<void> {
     logger.info('Removing product by id');
-    await ProductRepository.deleteById(ctx);
+    await ProductRepository.deleteByIdHttp(ctx);
     ctx.status = 204;
   }
 }

@@ -10,6 +10,13 @@ export const assertFound = <T>(body: T | null, ctx: Context): NonNullable<T> => 
   return body;
 };
 
+export const assertFoundGQL = <T>(body: T | null): NonNullable<T> => {
+  if (!body) {
+    throw new Error('Product not found');
+  }
+  return body;
+};
+
 export const validateSchema = <T>(schema: Schema<T>, object: T) => {
   const { error } = schema.validate(object, { abortEarly: false });
   if (error) {
