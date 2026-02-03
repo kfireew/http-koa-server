@@ -1,20 +1,12 @@
 import Joi from 'joi';
 import { Schema } from 'joi';
 import { Product } from '../db';
-import { Context } from 'koa';
 
-export const assertFound = <T>(body: T | null, ctx: Context): NonNullable<T> => {
-  if (!body) {
-    ctx.throw(404, 'Not found');
-  }
-  return body;
-};
-
-export const assertFoundGQL = <T>(body: T | null): NonNullable<T> => {
-  if (!body) {
+export const assertResultExists = <T>(result: T | null): NonNullable<T> => {
+  if (!result) {
     throw new Error('Product not found');
   }
-  return body;
+  return result;
 };
 
 export const validateSchema = <T>(schema: Schema<T>, object: T) => {

@@ -1,17 +1,25 @@
 import Router from 'koa-router';
-import { ProductController } from '../controllers/product.controller';
+import { productController } from '../controllers/product.controller';
 import { validateBodyMiddleware, validateIdMiddleware } from '../middlewares';
 import { ProductContext, productSchema, productUpdateSchema } from '../utils';
 
 export const router = new Router<any, ProductContext>({ prefix: '/products' });
 
-router.get('/', ProductController.getProducts);
-router.get('/:id', validateIdMiddleware, ProductController.getProductById);
-router.post('/', validateBodyMiddleware(productSchema), ProductController.createProduct);
+router.get('/', productController.getProducts.bind(productController));
+router.get('/:id', validateIdMiddleware, productController.getProductById.bind(productController));
+router.post(
+  '/',
+  validateBodyMiddleware(productSchema),
+  productController.createProduct.bind(productController)
+);
 router.put(
   '/:id',
   validateIdMiddleware,
   validateBodyMiddleware(productUpdateSchema),
-  ProductController.updateProduct
+  productController.updateProduct.bind(productController)
 );
-router.delete('/:id', validateIdMiddleware, ProductController.removeProduct);
+router.delete(
+  '/:id',
+  validateIdMiddleware,
+  productController.removeProduct.bind(productController)
+);

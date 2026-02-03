@@ -1,31 +1,35 @@
 import { logger, ProductContext } from '../utils';
-import { ProductRepository } from '../db';
+import { productRepository } from '../db';
 
 export class ProductController {
-  public static async getProducts(ctx: ProductContext): Promise<void> {
+  async getProducts(ctx: ProductContext): Promise<void> {
     logger.info('Fetching all products');
-    ctx.body = await ProductRepository.findAll();
+    ctx.body = await productRepository.findAll();
   }
 
-  public static async getProductById(ctx: ProductContext): Promise<void> {
+  async getProductById(ctx: ProductContext): Promise<void> {
     logger.info('Fetching product by id');
-    ctx.body = await ProductRepository.findByIdHttp(ctx);
+    ctx.body = (await productRepository.findById(ctx.params.id)) || ctx.throw(404, 'Not found');
   }
 
-  public static async createProduct(ctx: ProductContext): Promise<void> {
+  async createProduct(ctx: ProductContext): Promise<void> {
     logger.info('Creating new product');
     ctx.status = 201;
-    ctx.body = await ProductRepository.createOne(ctx.request.body);
+    ctx.body = await productRepository.createOne(ctx.request.body);
   }
 
-  public static async updateProduct(ctx: ProductContext): Promise<void> {
+  async updateProduct(ctx: ProductContext): Promise<void> {
     logger.info('Updating product by id');
-    ctx.body = await ProductRepository.updateByIdHttp(ctx);
+    ctx.body =
+      (await productRepository.updateById({ id: ctx.params.id, data: ctx.request.body })) ||
+      ctx.throw(404, 'Not found');
   }
 
-  public static async removeProduct(ctx: ProductContext): Promise<void> {
+  async removeProduct(ctx: ProductContext): Promise<void> {
     logger.info('Removing product by id');
-    await ProductRepository.deleteByIdHttp(ctx);
+    ctx.body = (await productRepository.deleteById(ctx.params.id)) || ctx.throw(404, 'Not found');
     ctx.status = 204;
   }
 }
+
+export const productController = new ProductController();

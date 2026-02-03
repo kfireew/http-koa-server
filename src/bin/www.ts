@@ -1,25 +1,7 @@
 import { app } from '../app';
 import { connectDB } from '../db';
 import { conf } from '../utils/config';
-import schema from '../schema';
-import resolvers from '../resolvers';
-import { ApolloServer } from '@apollo/server';
-
-const server = new ApolloServer({
-  introspection: true,
-  typeDefs: schema,
-  resolvers,
-  formatError: (error) => {
-    const message = error.message
-      .replace('SequelizeValidationError: ', '')
-      .replace('Validation error: ', '');
-
-    return {
-      ...error,
-      message
-    };
-  }
-});
+import { server } from '../graphql/server';
 
 (async () => {
   await connectDB();

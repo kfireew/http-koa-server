@@ -1,14 +1,14 @@
 import { gql } from 'graphql-tag';
 
-export default gql`
-  extend type Query {
-    products(limit: Float): [Product!]!
+export const productSchema = gql`
+  type Query {
+    products: [Product!]!
     product(id: ID!): Product!
   }
 
-  extend type Mutation {
-    createProduct(product: ProductInput!): Product!
-    updateProduct(id: ID!, data: ProductUpdateInput!): Product!
+  type Mutation {
+    createProduct(product: CreateProductInput!): Product!
+    updateProduct(id: ID!, data: UpdateProductInput!): Product!
     deleteProduct(id: ID!): Boolean!
   }
 
@@ -20,21 +20,21 @@ export default gql`
     stock: Int!
   }
 
-  input ProductInput {
+  input CreateProductInput {
     name: String!
     price: Float!
     description: String!
     stock: Int!
   }
 
-  input ProductUpdateInput {
+  input UpdateProductInput {
     name: String
     price: Float
     description: String
     stock: Int
   }
 
-  extend type Subscription {
+  type Subscription {
     productsDelta: Product!
   }
 `;
