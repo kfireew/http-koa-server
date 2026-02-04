@@ -5,21 +5,13 @@ import { ProductContext, productSchema, productUpdateSchema } from '../utils';
 
 export const router = new Router<any, ProductContext>({ prefix: '/products' });
 
-router.get('/', productController.getProducts.bind(productController));
-router.get('/:id', validateIdMiddleware, productController.getProductById.bind(productController));
-router.post(
-  '/',
-  validateBodyMiddleware(productSchema),
-  productController.createProduct.bind(productController)
-);
+router.get('/', productController.getProducts);
+router.get('/:id', validateIdMiddleware, productController.getProductById);
+router.post('/', validateBodyMiddleware(productSchema), productController.createProduct);
 router.put(
   '/:id',
   validateIdMiddleware,
   validateBodyMiddleware(productUpdateSchema),
-  productController.updateProduct.bind(productController)
+  productController.updateProduct
 );
-router.delete(
-  '/:id',
-  validateIdMiddleware,
-  productController.removeProduct.bind(productController)
-);
+router.delete('/:id', validateIdMiddleware, productController.removeProduct);

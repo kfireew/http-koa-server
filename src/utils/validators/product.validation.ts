@@ -1,20 +1,5 @@
 import Joi from 'joi';
-import { Schema } from 'joi';
-import { Product } from '../db';
-
-export const assertResultExists = <T>(result: T | null): NonNullable<T> => {
-  if (!result) {
-    throw new Error('Product not found');
-  }
-  return result;
-};
-
-export const validateSchema = <T>(schema: Schema<T>, object: T) => {
-  const { error } = schema.validate(object, { abortEarly: false });
-  if (error) {
-    throw new Error('Validation Error');
-  }
-};
+import { Product } from '../../db';
 
 export const productSchema: Joi.ObjectSchema<Product> = Joi.object({
   name: Joi.string().min(1).required(),
