@@ -14,7 +14,7 @@ export class ProductRepository {
   }
 
   async updateById({ id, data }: { id: string; data: Partial<Product> }): Promise<Product | null> {
-    return ProductModel.findByIdAndUpdate(id, data);
+    return ProductModel.findByIdAndUpdate(id, data, { new: true });
   }
 
   async deleteById(id: string): Promise<Product | null> {
