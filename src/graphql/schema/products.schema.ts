@@ -17,14 +17,14 @@ export const productSchema = gql`
     name: String!
     price: Float!
     description: String!
-    stock: Int!
+    stock: Int
   }
 
   input CreateProductInput {
     name: String!
     price: Float!
     description: String!
-    stock: Int!
+    stock: Int
   }
 
   input UpdateProductInput {

@@ -5,7 +5,7 @@ export const productSchema: Joi.ObjectSchema<Product> = Joi.object({
   name: Joi.string().min(1).required(),
   price: Joi.number().min(0).required(),
   description: Joi.string().required(),
-  stock: Joi.number().min(0).required()
+  stock: Joi.number().min(0)
 });
 
 export const productUpdateSchema: Joi.ObjectSchema<Partial<Product>> = Joi.object({
