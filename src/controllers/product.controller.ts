@@ -1,6 +1,5 @@
-import { logger, ProductContext } from '../utils';
+import { assertResultExists, logger, ProductContext } from '../utils';
 import { Product, productRepository } from '../db';
-import { assertResultExists } from '../utils/validators';
 
 export class ProductController {
   getProducts = async (ctx: ProductContext): Promise<void> => {
@@ -12,15 +11,20 @@ export class ProductController {
 
   getProductById = async (ctx: ProductContext): Promise<void> => {
     logger.info('Fetching product by id');
-    const product = await productRepository.findById(ctx.params.id);
-    ctx.body = assertResultExists(product, 'Product');
+    const product: Product = assertResultExists(
+      await productRepository.findById(ctx.params.id),
+      'Product'
+    );
+    logger.info(`Fetched product ${product.name}`);
+    ctx.body = product;
   };
 
   createProduct = async (ctx: ProductContext): Promise<void> => {
     logger.info('Creating new product');
     const createdProduct: Product = await productRepository.createOne(ctx.request.body);
+    logger.info(`Created product ${createdProduct.name}`);
     ctx.status = 201;
-    ctx.body = assertResultExists(createdProduct, 'Product');
+    ctx.body = createdProduct;
   };
 
   updateProduct = async (ctx: ProductContext): Promise<void> => {
@@ -29,12 +33,14 @@ export class ProductController {
       id: ctx.params.id,
       data: ctx.request.body
     });
+    logger.info(`Updated product ${updatedProduct?.name}`);
     ctx.body = assertResultExists(updatedProduct, 'Product');
   };
 
   removeProduct = async (ctx: ProductContext): Promise<void> => {
     logger.info('Removing product by id');
     const deletedProduct: Product | null = await productRepository.deleteById(ctx.params.id);
+    logger.info(`Deleted product ${deletedProduct?.name}`);
     ctx.status = 204;
     ctx.body = !!assertResultExists(deletedProduct, 'Product');
   };
