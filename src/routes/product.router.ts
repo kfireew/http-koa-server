@@ -3,15 +3,15 @@ import { productController } from '../controllers/product.controller';
 import { validateBodyMiddleware, validateIdMiddleware } from '../middlewares';
 import { ProductContext, productSchema, productUpdateSchema } from '../utils';
 
-export const router = new Router<any, ProductContext>({ prefix: '/products' });
+export const productRouter = new Router<any, ProductContext>({ prefix: '/products' });
 
-router.get('/', productController.getProducts);
-router.get('/:id', validateIdMiddleware, productController.getProductById);
-router.post('/', validateBodyMiddleware(productSchema), productController.createProduct);
-router.put(
+productRouter.get('/', productController.getProducts);
+productRouter.get('/:id', validateIdMiddleware, productController.getProductById);
+productRouter.post('/', validateBodyMiddleware(productSchema), productController.createProduct);
+productRouter.put(
   '/:id',
   validateIdMiddleware,
   validateBodyMiddleware(productUpdateSchema),
   productController.updateProduct
 );
-router.delete('/:id', validateIdMiddleware, productController.removeProduct);
+productRouter.delete('/:id', validateIdMiddleware, productController.removeProduct);

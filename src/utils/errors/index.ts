@@ -1,2 +1,2 @@
-export * from './custom-errors';
-export * from './custom-error.types';
+export * from './app-errors';
+export * from './app-errors.types';
