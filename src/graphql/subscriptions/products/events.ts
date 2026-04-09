@@ -4,4 +4,4 @@ export const ProductEvents = {
   DELETED: 'PRODUCT_DELETED'
 } as const;
 
-export type ProductEventType = (typeof ProductEvents)[keyof typeof ProductEvents];
+export type ProductEvent = (typeof ProductEvents)[keyof typeof ProductEvents];
