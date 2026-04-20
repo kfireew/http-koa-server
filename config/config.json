@@ -1,7 +1,0 @@
-{
-    "port": 3000,
-    "mongoURI": "mongodb+srv://kfirmagniv:M9SoQtxyUpGmSARZ@hafifa.qhyk4ie.mongodb.net/?retryWrites=true&w=majority&appName=Hafifa",
-    "logFile": "./logs/app.log",
-    "logLevel": "debug"
-  }
-  

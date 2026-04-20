@@ -1,14 +1,25 @@
 import { Context, Next } from 'koa';
 import { logger } from '../utils';
+import { isAppError } from '../utils/errors';
 
 export const errorMiddleware = async (ctx: Context, next: Next) => {
   try {
     await next();
   } catch (err: unknown) {
-    if (err instanceof Error) {
-      logger.error(err.message || 'Internal server error');
-      ctx.body = { message: err.message || 'Internal server error' };
-      ctx.app.emit('error', err, ctx);
+    if (isAppError(err)) {
+      logger.error(`${err.name}: ${err.message}`);
+      ctx.status = err.status;
+      ctx.body = {
+        error: err.name,
+        message: err.message
+      };
+    } else {
+      logger.error('Unknown error occurred');
+      ctx.status = 500;
+      ctx.body = {
+        error: 'InternalServerError',
+        message: 'Unknown error occurred'
+      };
     }
   }
 };

@@ -1,33 +1,51 @@
 import { ProductModel, Product } from './product.model';
-import { assertFound, ProductContext } from '../utils';
+import { assertResultExists, logger } from '../utils';
 
 export class ProductRepository {
-  public static async findAll(): Promise<Product[]> {
-    return ProductModel.find();
-  }
+  findAll = async (): Promise<Product[]> => {
+    logger.info('Fetching all products');
+    const products: Product[] = await ProductModel.find();
+    logger.info(`Fetched ${products.length} products`);
 
-  public static async findById(ctx: ProductContext): Promise<Product> {
-    const product: Product | null = await ProductModel.findById(ctx.params.id);
-    return assertFound(product, ctx);
-  }
+    return products;
+  };
 
-  public static async createOne(data: Partial<Product>): Promise<Product> {
+  findById = async (id: string): Promise<Product> => {
+    logger.info('Fetching product by id');
+    const product: Product = assertResultExists(await ProductModel.findById(id), 'Product');
+    logger.info(`Fetched product ${product.name}`);
+    return product;
+  };
+
+  createOne = async (data: Partial<Product>): Promise<Product> => {
+    logger.info('Creating new product');
+    const createdProduct: Product = await productRepository.createOne(data);
+    logger.info(`Created product ${createdProduct.name}`);
     return new ProductModel(data).save();
-  }
+  };
 
-  public static async updateById(ctx: ProductContext): Promise<Product> {
-    const product: Product | null = await ProductModel.findByIdAndUpdate(
-      ctx.params.id,
-      ctx.request.body,
-      {
-        new: true
-      }
+  updateById = async ({ id, data }: { id: string; data: Partial<Product> }): Promise<Product> => {
+    logger.info('Updating product by id');
+    const updatedProduct: Product | null = assertResultExists(
+      await productRepository.updateById({
+        id,
+        data
+      }),
+      'Product'
     );
-    return assertFound(product, ctx);
-  }
+    logger.info(`Updated product ${updatedProduct?.name}`);
+    return updatedProduct;
+  };
 
-  public static async deleteById(ctx: ProductContext): Promise<Product> {
-    const product: Product | null = await ProductModel.findByIdAndDelete(ctx.params.id);
-    return assertFound(product, ctx);
-  }
+  deleteById = async (id: string): Promise<Product | null> => {
+    logger.info('Removing product by id');
+    const deletedProduct: Product = assertResultExists(
+      await productRepository.deleteById(id),
+      'Product'
+    );
+    logger.info(`Deleted product ${deletedProduct.name}`);
+    return ProductModel.findByIdAndDelete(id);
+  };
 }
+
+export const productRepository = new ProductRepository();

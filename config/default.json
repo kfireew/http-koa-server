@@ -1,0 +1,6 @@
+{
+    "port": 3000,
+    "mongoURI": "mongodb+srv://kfirmagniv:M9SoQtxyUpGmSARZ@hafifa.qhyk4ie.mongodb.net/amaromach",
+    "logFile": "./logs/app.log",
+    "logLevel": "debug"
+  }

@@ -1,6 +1,6 @@
 import { Context, Next } from 'koa';
-import { validateSchema } from '../utils';
 import { ObjectSchema } from 'joi';
+import { validateSchema } from '../utils';
 
 export const validateBodyMiddleware =
   <T>(schema: ObjectSchema<T>) =>

@@ -1,31 +1,33 @@
-import { logger, ProductContext } from '../utils';
-import { ProductRepository } from '../db';
+import { ProductContext } from '../utils';
+import { Product, productRepository } from '../db';
 
 export class ProductController {
-  public static async getProducts(ctx: ProductContext): Promise<void> {
-    logger.info('Fetching all products');
-    ctx.body = await ProductRepository.findAll();
-  }
+  getProducts = async (ctx: ProductContext): Promise<void> => {
+    ctx.body = await productRepository.findAll();
+  };
 
-  public static async getProductById(ctx: ProductContext): Promise<void> {
-    logger.info('Fetching product by id');
-    ctx.body = await ProductRepository.findById(ctx);
-  }
+  getProductById = async (ctx: ProductContext): Promise<void> => {
+    ctx.body = await productRepository.findById(ctx.params.id);
+  };
 
-  public static async createProduct(ctx: ProductContext): Promise<void> {
-    logger.info('Creating new product');
+  createProduct = async (ctx: ProductContext): Promise<void> => {
+    const createdProduct: Product = await productRepository.createOne(ctx.request.body);
     ctx.status = 201;
-    ctx.body = await ProductRepository.createOne(ctx.request.body);
-  }
+    ctx.body = createdProduct;
+  };
 
-  public static async updateProduct(ctx: ProductContext): Promise<void> {
-    logger.info('Updating product by id');
-    ctx.body = await ProductRepository.updateById(ctx);
-  }
+  updateProduct = async (ctx: ProductContext): Promise<void> => {
+    ctx.body = await productRepository.updateById({
+      id: ctx.params.id,
+      data: ctx.request.body
+    });
+  };
 
-  public static async removeProduct(ctx: ProductContext): Promise<void> {
-    logger.info('Removing product by id');
-    await ProductRepository.deleteById(ctx);
+  removeProduct = async (ctx: ProductContext): Promise<void> => {
+    const deletedProduct: Product | null = await productRepository.deleteById(ctx.params.id);
     ctx.status = 204;
-  }
+    ctx.body = !!deletedProduct;
+  };
 }
+
+export const productController = new ProductController();
